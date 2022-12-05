@@ -1,7 +1,4 @@
 import java.io.*;
-import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,44 +13,57 @@ public class Main {
             System.out.println(lib.getName());
         }
         System.out.println();
-        Command command = new Command();
         Scanner sc = new Scanner(System.in);
         while(true) {
             System.out.println("Enter the library to work with: ");
-            String library = sc.nextLine();
-            File file = new File(dir, library);
+            String libraryName = sc.nextLine();
+            if (libraryName.equals("exit")){
+                return;
+            }
+            File file = new File(dir, libraryName);
             if (!file.exists()) {
                 System.out.println("No such library, try another");
             } else {
-                System.out.println("Welcome to the " + library + "!");
-                Library library1 = new Library(file, sc);
+                System.out.println("Welcome to the " + libraryName + "!");
+                LibraryService libraryService = new LibraryServiceImp(file, sc);
                 while (true) {
                     System.out.println("Enter your request");
                     String request = sc.nextLine();
                     if (request.equals("back")) {
+                        libraryService.saveChanges();
                         break;
                     }
                     switch (request) {
                         case ("exit"):
+                            libraryService.saveChanges();
                             return;
                         case ("create"):
                             System.out.println("Enter the details about the book.");
-                            library1.addBook();
+                            Book addedBook = libraryService.addBook();
+                            System.out.println(addedBook);
                             break;
                         case ("read"):
-                            library1.getBooks();
+                            List<Book> books = libraryService.getBooks();
+                            if (books.size() == 0) {
+                                System.out.println("There is no books in this library");
+                            } else {
+                                for (Book b : books){
+                                    System.out.println(b.toStringForUsers());
+                                }
+                            }
                             break;
                         case ("update"):
-                            library1.updateBook();
+                            Book updatedBook = libraryService.updateBook();
+                            System.out.println(updatedBook);
                             break;
                         case ("delete"):
-                            library1.deleteBook();
+                            libraryService.deleteBook();
                             break;
                         case ("book"):
-                            library1.makeBooking();
+                            libraryService.makeBooking();
                             break;
                         case ("unbook"):
-                            library1.unbook();
+                            libraryService.unbook();
                             break;
                     }
                 }
