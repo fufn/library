@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -15,16 +16,16 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         while(true) {
             System.out.println("Enter the library to work with: ");
-            String library = sc.nextLine();
-            if (library.equals("exit")){
+            String libraryName = sc.nextLine();
+            if (libraryName.equals("exit")){
                 return;
             }
-            File file = new File(dir, library);
+            File file = new File(dir, libraryName);
             if (!file.exists()) {
                 System.out.println("No such library, try another");
             } else {
-                System.out.println("Welcome to the " + library + "!");
-                LibraryService library1 = new LibraryServiceImp(file, sc);
+                System.out.println("Welcome to the " + libraryName + "!");
+                LibraryService libraryService = new LibraryServiceImp(file, sc);
                 while (true) {
                     System.out.println("Enter your request");
                     String request = sc.nextLine();
@@ -36,22 +37,31 @@ public class Main {
                             return;
                         case ("create"):
                             System.out.println("Enter the details about the book.");
-                            library1.addBook();
+                            Book addedBook = libraryService.addBook();
+                            System.out.println(addedBook);
                             break;
                         case ("read"):
-                            library1.getBooks();
+                            List<Book> books = libraryService.getBooks();
+                            if (books.size() == 0) {
+                                System.out.println("There is no books in this library");
+                            } else {
+                                for (Book b : books){
+                                    System.out.println(b.toStringForUsers());
+                                }
+                            }
                             break;
                         case ("update"):
-                            library1.updateBook();
+                            Book updatedBook = libraryService.updateBook();
+                            System.out.println(updatedBook);
                             break;
                         case ("delete"):
-                            library1.deleteBook();
+                            libraryService.deleteBook();
                             break;
                         case ("book"):
-                            library1.makeBooking();
+                            libraryService.makeBooking();
                             break;
                         case ("unbook"):
-                            library1.unbook();
+                            libraryService.unbook();
                             break;
                     }
                 }

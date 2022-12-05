@@ -14,12 +14,7 @@ public class LibraryServiceImp implements LibraryService{
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
-                Book book = new Book();
-                book.setName(values[0]);
-                book.setAuthor(values[1]);
-                book.setDescription(values[2]);
-                book.setYear(Integer.parseInt(values[3]));
-                book.setBooked(Boolean.parseBoolean(values[4]));
+                Book book = new Book(values[0],values[1],values[2],Integer.parseInt(values[3]),Boolean.parseBoolean(values[4]));
                 books.add(book);
             }
         } catch (IOException e) {
@@ -28,80 +23,75 @@ public class LibraryServiceImp implements LibraryService{
         this.sc = sc;
     }
 
-    public void addBook() throws FileNotFoundException {
+    public Book addBook() throws FileNotFoundException {
         System.out.println("Enter name of book:");
-        String book_name = sc.nextLine();
+        String bookName = sc.nextLine();
         System.out.println("Enter author:");
-        String book_author = sc.nextLine();
+        String bookAuthor = sc.nextLine();
         System.out.println("Enter short description:");
-        String book_description = sc.nextLine();
+        String bookDescription = sc.nextLine();
         System.out.println("Enter the year");
-        int book_year = Integer.parseInt(sc.nextLine());
-        Book newBook = new Book();
-        newBook.setName(book_name);
-        newBook.setAuthor(book_author);
-        newBook.setDescription(book_description);
-        newBook.setYear(book_year);
+        int bookYear = Integer.parseInt(sc.nextLine());
+
+        Book newBook = new Book(bookName, bookAuthor, bookDescription, bookYear);
         books.add(newBook);
+
         PrintWriter writer = new PrintWriter(new FileOutputStream(file));
         for (Book b: books){
             writer.println(b);
         }
         System.out.println("Book was added successfully");
         writer.close();
+        return newBook;
     }
 
-    public void getBooks(){
-        if (books.size() == 0) {
-            System.out.println("There is no books in this library");
-        }
-        for (Book b : books){
-            System.out.println(b.repr());
-        }
+    public List<Book> getBooks(){
+        return books;
     }
 
-    public void updateBook() throws FileNotFoundException {
+    public Book updateBook() throws FileNotFoundException {
         System.out.println("Enter the numeber of the book");
         int id = Integer.parseInt(sc.nextLine());
         if (id > 0 && id < books.size()){
             System.out.println("Enter name of book:");
-            String book_name = sc.nextLine();
+            String bookName = sc.nextLine();
             System.out.println("Enter author:");
-            String book_author = sc.nextLine();
+            String bookAuthor = sc.nextLine();
             System.out.println("Enter short description:");
-            String book_description = sc.nextLine();
+            String bookDescription = sc.nextLine();
+
             System.out.println("Enter the year");
-            int book_year = -1;
+            Integer bookYear = null;
             try {
-                book_year = Integer.parseInt(sc.nextLine());
-            } catch (Exception e) {
+                bookYear = Integer.parseInt(sc.nextLine());
+            } catch (Exception ignored){
 
             }
-            Book newBook = new Book();
-            newBook.setName(book_name);
-            newBook.setAuthor(book_author);
-            newBook.setDescription(book_description);
-            newBook.setYear(book_year);
-            if (!newBook.getName().equals("")){
-                books.get(id).setName(newBook.getName());
+
+            if (!bookName.equals("")){
+                books.get(id).setName(bookName);
             }
-            if (!newBook.getAuthor().equals("")){
-                books.get(id).setAuthor(newBook.getAuthor());
+            if (!bookAuthor.equals("")){
+                books.get(id).setAuthor(bookAuthor);
             }
-            if (!newBook.getDescription().equals("")){
-                books.get(id).setDescription(newBook.getDescription());
+            if (!bookDescription.equals("")){
+                books.get(id).setDescription(bookDescription);
             }
-            if (newBook.getYear() != -1) {
-                books.get(id).setYear(newBook.getYear());
+            if (bookYear != null) {
+                books.get(id).setYear(bookYear);
             }
+
             PrintWriter writer = new PrintWriter(new FileOutputStream(file));
             for (Book b: books){
                 writer.println(b);
             }
             System.out.println("Book was changed successfully");
             writer.close();
+
+            return books.get(id);
         } else {
             System.out.println("Your id is not valid.");
+            return null;
         }
     }
 

@@ -3,14 +3,29 @@ public class Book {
     private String name;
     private String author;
     private String description;
-    private int year;
+    private Integer year;
     private boolean isBooked;
+
+    public Book(String name, String author, String description, Integer year, boolean isBooked) {
+        this.name = name;
+        this.author = author;
+        this.description = description;
+        this.year = year;
+        this.isBooked = isBooked;
+    }
+    public Book(String name, String author, String description, int year) {
+        this.name = name;
+        this.author = author;
+        this.description = description;
+        this.year = year;
+        this.isBooked = false;
+    }
 
     public Book() {
 
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
@@ -50,7 +65,7 @@ public class Book {
         isBooked = booked;
     }
 
-    public String repr(){
+    public String toStringForUsers(){
         if (isBooked()) {
             return getName() + "," + getAuthor() + "," + getDescription() + "," + getYear() + ",booked";
         } else {
