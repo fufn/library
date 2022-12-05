@@ -8,4 +8,5 @@ public interface LibraryService {
     public void deleteBook() throws FileNotFoundException;
     public void makeBooking() throws FileNotFoundException;
     public void unbook() throws FileNotFoundException;
+    public void saveChanges() throws FileNotFoundException;
 }

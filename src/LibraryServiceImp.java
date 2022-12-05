@@ -36,12 +36,6 @@ public class LibraryServiceImp implements LibraryService{
         Book newBook = new Book(bookName, bookAuthor, bookDescription, bookYear);
         books.add(newBook);
 
-        PrintWriter writer = new PrintWriter(new FileOutputStream(file));
-        for (Book b: books){
-            writer.println(b);
-        }
-        System.out.println("Book was added successfully");
-        writer.close();
         return newBook;
     }
 
@@ -81,14 +75,9 @@ public class LibraryServiceImp implements LibraryService{
                 books.get(id).setYear(bookYear);
             }
 
-            PrintWriter writer = new PrintWriter(new FileOutputStream(file));
-            for (Book b: books){
-                writer.println(b);
-            }
             System.out.println("Book was changed successfully");
-            writer.close();
-
             return books.get(id);
+
         } else {
             System.out.println("Your id is not valid.");
             return null;
@@ -99,36 +88,32 @@ public class LibraryServiceImp implements LibraryService{
         System.out.println("Enter the number of the book");
         int id = Integer.parseInt(sc.nextLine());
         books.remove(id);
-        PrintWriter writer = new PrintWriter(new FileOutputStream(file));
-        for (Book b: books){
-            writer.println(b);
-        }
         System.out.println("Book was deleted successfully");
-        writer.close();
     }
 
     public void makeBooking() throws FileNotFoundException {
         System.out.println("Enter the number of book you would like to book");
         int id = Integer.parseInt(sc.nextLine());
         books.get(id).setBooked(true);
-        PrintWriter writer = new PrintWriter(new FileOutputStream(file));
-        for (Book b: books){
-            writer.println(b);
-        }
         System.out.println("Book was booked successfully");
-        writer.close();
     }
 
     public void unbook() throws FileNotFoundException {
         System.out.println("Enter the number of book you would like to book");
         int id = Integer.parseInt(sc.nextLine());
         books.get(id).setBooked(false);
+        System.out.println("Book was booked successfully");
+    }
+
+    @Override
+    public void saveChanges() throws FileNotFoundException {
+
         PrintWriter writer = new PrintWriter(new FileOutputStream(file));
         for (Book b: books){
             writer.println(b);
         }
-        System.out.println("Book was booked successfully");
         writer.close();
+
     }
 
 }

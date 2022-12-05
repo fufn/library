@@ -30,10 +30,12 @@ public class Main {
                     System.out.println("Enter your request");
                     String request = sc.nextLine();
                     if (request.equals("back")) {
+                        libraryService.saveChanges();
                         break;
                     }
                     switch (request) {
                         case ("exit"):
+                            libraryService.saveChanges();
                             return;
                         case ("create"):
                             System.out.println("Enter the details about the book.");
