@@ -44,11 +44,12 @@ public class Main {
                             library1.getBooks();
                             break;
                         case ("update"):
-                        case ("delete"):
-                        case ("book"):
-                        default:
-                            System.out.println("There is no such command.");
+                            library1.updateBook();
                             break;
+                        case ("delete"):
+                            library1.deleteBook();
+                            break;
+                        case ("book"):
                     }
                 }
             }
