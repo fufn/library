@@ -50,6 +50,11 @@ public class Main {
                             library1.deleteBook();
                             break;
                         case ("book"):
+                            library1.makeBooking();
+                            break;
+                        case ("unbook"):
+                            library1.unbook();
+                            break;
                     }
                 }
             }

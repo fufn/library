@@ -54,7 +54,7 @@ public class Library {
             System.out.println("There is no books in this library");
         }
         for (Book b : books){
-            System.out.println(b);
+            System.out.println(b.repr());;
         }
     }
 
@@ -101,6 +101,30 @@ public class Library {
             writer.println(b);
         }
         System.out.println("Book was deleted successfully");
+        writer.close();
+    }
+
+    public void makeBooking() throws FileNotFoundException {
+        System.out.println("Enter the number of book you would like to book");
+        int id = Integer.parseInt(sc.nextLine());
+        books.get(id).setBooked(true);
+        PrintWriter writer = new PrintWriter(new FileOutputStream(file));
+        for (Book b: books){
+            writer.println(b);
+        }
+        System.out.println("Book was booked successfully");
+        writer.close();
+    }
+
+    public void unbook() throws FileNotFoundException {
+        System.out.println("Enter the number of book you would like to book");
+        int id = Integer.parseInt(sc.nextLine());
+        books.get(id).setBooked(false);
+        PrintWriter writer = new PrintWriter(new FileOutputStream(file));
+        for (Book b: books){
+            writer.println(b);
+        }
+        System.out.println("Book was booked successfully");
         writer.close();
     }
 

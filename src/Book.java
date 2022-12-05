@@ -41,6 +41,14 @@ public class Book {
         isBooked = booked;
     }
 
+    public String repr(){
+        if (isBooked()) {
+            return getName() + "," + getAuthor() + "," + getDescription() + ",booked";
+        } else {
+            return getName() + "," + getAuthor() + "," + getDescription() + ",not booked";
+        }
+    }
+
     @Override
     public String toString() {
         return getName() + "," + getAuthor() + "," + getDescription() + "," + isBooked();
