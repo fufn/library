@@ -1,8 +1,4 @@
 import java.io.*;
-import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -16,17 +12,19 @@ public class Main {
             System.out.println(lib.getName());
         }
         System.out.println();
-        Command command = new Command();
         Scanner sc = new Scanner(System.in);
         while(true) {
             System.out.println("Enter the library to work with: ");
             String library = sc.nextLine();
+            if (library.equals("exit")){
+                return;
+            }
             File file = new File(dir, library);
             if (!file.exists()) {
                 System.out.println("No such library, try another");
             } else {
                 System.out.println("Welcome to the " + library + "!");
-                Library library1 = new Library(file, sc);
+                LibraryService library1 = new LibraryServiceImp(file, sc);
                 while (true) {
                     System.out.println("Enter your request");
                     String request = sc.nextLine();

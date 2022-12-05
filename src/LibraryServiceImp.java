@@ -3,12 +3,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Library {
+public class LibraryServiceImp implements LibraryService{
 
-    private File file;
-    private List<Book> books = new ArrayList<>();
-    private Scanner sc;
-    public Library(File file, Scanner sc){
+    private final File file;
+    private final List<Book> books = new ArrayList<>();
+    private final Scanner sc;
+    public LibraryServiceImp(File file, Scanner sc){
         this.file = file;
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
@@ -18,11 +18,10 @@ public class Library {
                 book.setName(values[0]);
                 book.setAuthor(values[1]);
                 book.setDescription(values[2]);
-                book.setBooked(Boolean.parseBoolean(values[3]));
+                book.setYear(Integer.parseInt(values[3]));
+                book.setBooked(Boolean.parseBoolean(values[4]));
                 books.add(book);
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -36,10 +35,13 @@ public class Library {
         String book_author = sc.nextLine();
         System.out.println("Enter short description:");
         String book_description = sc.nextLine();
+        System.out.println("Enter the year");
+        int book_year = Integer.parseInt(sc.nextLine());
         Book newBook = new Book();
         newBook.setName(book_name);
         newBook.setAuthor(book_author);
         newBook.setDescription(book_description);
+        newBook.setYear(book_year);
         books.add(newBook);
         PrintWriter writer = new PrintWriter(new FileOutputStream(file));
         for (Book b: books){
@@ -54,7 +56,7 @@ public class Library {
             System.out.println("There is no books in this library");
         }
         for (Book b : books){
-            System.out.println(b.repr());;
+            System.out.println(b.repr());
         }
     }
 
@@ -68,10 +70,18 @@ public class Library {
             String book_author = sc.nextLine();
             System.out.println("Enter short description:");
             String book_description = sc.nextLine();
+            System.out.println("Enter the year");
+            int book_year = -1;
+            try {
+                book_year = Integer.parseInt(sc.nextLine());
+            } catch (Exception e) {
+
+            }
             Book newBook = new Book();
             newBook.setName(book_name);
             newBook.setAuthor(book_author);
             newBook.setDescription(book_description);
+            newBook.setYear(book_year);
             if (!newBook.getName().equals("")){
                 books.get(id).setName(newBook.getName());
             }
@@ -80,6 +90,9 @@ public class Library {
             }
             if (!newBook.getDescription().equals("")){
                 books.get(id).setDescription(newBook.getDescription());
+            }
+            if (newBook.getYear() != -1) {
+                books.get(id).setYear(newBook.getYear());
             }
             PrintWriter writer = new PrintWriter(new FileOutputStream(file));
             for (Book b: books){

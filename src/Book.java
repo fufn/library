@@ -3,10 +3,19 @@ public class Book {
     private String name;
     private String author;
     private String description;
+    private int year;
     private boolean isBooked;
 
     public Book() {
 
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 
     public String getName() {
@@ -43,14 +52,14 @@ public class Book {
 
     public String repr(){
         if (isBooked()) {
-            return getName() + "," + getAuthor() + "," + getDescription() + ",booked";
+            return getName() + "," + getAuthor() + "," + getDescription() + "," + getYear() + ",booked";
         } else {
-            return getName() + "," + getAuthor() + "," + getDescription() + ",not booked";
+            return getName() + "," + getAuthor() + "," + getDescription()+ "," + getYear() + ",not booked";
         }
     }
 
     @Override
     public String toString() {
-        return getName() + "," + getAuthor() + "," + getDescription() + "," + isBooked();
+        return getName() + "," + getAuthor() + "," + getDescription() + "," + getYear() + ","  + isBooked();
     }
 }
